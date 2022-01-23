@@ -80,7 +80,7 @@ public async Task<List<(TFunctionMessage, TFunctionOutput, bool)>>
 
     // Prep handlers
     var client = new RpcClient(endpointUri);
-    var web3 = new Web3(chain);
+    var web3 = new Web3(client);
     var multiQueryHandler = web3.Eth.GetMulti2QueryHandler(multiCall2ContractAddress);
 
     // map to MulticallInputOutput
