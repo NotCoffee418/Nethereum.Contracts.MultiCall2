@@ -1,5 +1,6 @@
 ﻿using Nethereum.ABI.FunctionEncoding.Attributes;
 using Nethereum.Hex.HexConvertors.Extensions;
+using System;
 
 namespace Nethereum.Contracts.QueryHandlers.MultiCall2
 {
@@ -17,6 +18,7 @@ namespace Nethereum.Contracts.QueryHandlers.MultiCall2
         public TFunctionMessage Input { get; set; }
         public TFunctionOutput Output { get; private set; }
         public bool? Success { get; private set; }
+        public Exception Error { get; private set; } = null;
         public byte[] RawOutput { get; private set; }
 
         public byte[] GetCallData()
@@ -32,15 +34,16 @@ namespace Nethereum.Contracts.QueryHandlers.MultiCall2
                 RawOutput = output;
                 Success = true;
             }
-            catch
+            catch (Exception ex)
             {
-                MarkFailed();
+                MarkFailed(ex);
             }
         }
 
-        public void MarkFailed()
+        public void MarkFailed(Exception error = null)
         {
             Success = false;
+            Error = error;
         }
     }
 }
